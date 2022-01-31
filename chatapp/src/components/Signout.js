@@ -1,13 +1,9 @@
-import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import { auth } from "../firebase";
 import React from "react";
 
 function Signout() {
-  return (
-    <div>
-      <Button onClick={() => auth.signOut()}>SIGN OUT</Button>
-    </div>
-  );
+  return <Typography onClick={() => auth.signOut()}>SignOut</Typography>;
 }
 
 export default Signout;

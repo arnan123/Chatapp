@@ -11,11 +11,15 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Logout from "@mui/icons-material/Logout";
+import Settings from "@mui/icons-material/Settings";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import Signout from "./Signout";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["About", "Members", "Contact"];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -29,7 +33,11 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
+    e.preventDefault();
+
+    if (e.target.value) {
+    }
     setAnchorElNav(null);
   };
 
@@ -38,16 +46,16 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position='static' sx={{ maxHeight: "20vh" }}>
-      <Container>
+    <AppBar position='static'>
+      <Container maxWidth='20vw'>
         <Toolbar disableGutters>
           <Typography
-            variant='h3'
+            variant='h4'
             noWrap
             component='div'
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            Chatapp
+            CHAT APP
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -101,7 +109,7 @@ const ResponsiveAppBar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                <Typography variant='h7'>{page}</Typography>
               </Button>
             ))}
           </Box>
@@ -128,11 +136,20 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem>Profile</MenuItem>
+
+              <MenuItem>
+                <ListItemIcon>
+                  <Settings fontSize='small' />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <MenuItem onClick={() => auth.signOut()}>
+                <ListItemIcon>
+                  <Logout fontSize='small' />
+                </ListItemIcon>
+                SignOut
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import firebase from "firebase/compat/app";
 import { auth } from "../firebase";
 
@@ -10,11 +10,22 @@ function Signin() {
   };
 
   return (
-    <>
-      <Button variant='primary' onClick={signinwithgoogle}>
-        Sign in with google
-      </Button>
-    </>
+    <div>
+      <Box textAlign={"center"}>
+        <Stack>
+          <Typography variant='h1'>Chatapp</Typography>
+          <Box>
+            <Button
+              variant='contained'
+              size={"large"}
+              onClick={signinwithgoogle}
+            >
+              Sign in with google
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
+    </div>
   );
 }
 

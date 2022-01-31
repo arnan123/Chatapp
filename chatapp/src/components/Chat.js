@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db, auth } from "../firebase";
-import SignOut from "./Signout";
 import Sendchat from "./Sendchat";
 import Appbar from "./Appbar";
 import { Avatar } from "@mui/material";
@@ -20,19 +19,16 @@ function Chat() {
   return (
     <div>
       <Appbar />
-      <SignOut />
       <div className='msgs'>
         {messages.map(({ id, text, photoURL, uid }) => (
-          <div>
-            <div
-              key={id}
-              className={`msg ${
-                uid === auth.currentUser.uid ? "sent" : "received"
-              }`}
-            >
-              <Avatar src={photoURL} alt='profile' />
-              <p color='black'>{text}</p>
-            </div>
+          <div
+            key={id}
+            className={`msg ${
+              uid === auth.currentUser.uid ? "sent" : "received"
+            }`}
+          >
+            <Avatar src={photoURL} alt='profile' />
+            <p color='black'>{text}</p>
           </div>
         ))}
         <Sendchat scroll={scroll} />

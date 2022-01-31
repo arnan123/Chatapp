@@ -8,16 +8,23 @@ function Sendchat({ scroll }) {
 
   async function sendMessage(e) {
     e.preventDefault();
-    const { uid, photoURL } = auth.currentUser;
+    const { uid, photoURL, email, displayName } = auth.currentUser;
 
-    await db.collection("messages").add({
-      text: msg,
-      photoURL,
-      uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    setMsg("");
-    scroll.current.scrollIntoView({ behavior: "smooth" });
+    // const [user] = useState(auth.currentUser);
+    console.log(auth.currentUser);
+
+    if (msg !== "") {
+      await db.collection("messages").add({
+        text: msg,
+        email,
+        displayName,
+        photoURL,
+        uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      setMsg("");
+      scroll.current.scrollIntoView({ behavior: "smooth" });
+    }
   }
   return (
     <div>
