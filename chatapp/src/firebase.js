@@ -1,49 +1,26 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
-import "firebase/messaging";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCbHLpVmMHtBQTcuKeBpzmplaYjWCtreVo",
-  authDomain: "chatapp-42918.firebaseapp.com",
-  projectId: "chatapp-42918",
-  storageBucket: "chatapp-42918.appspot.com",
-  messagingSenderId: "56932428331",
-  appId: "1:56932428331:web:4801fed1cc713684a7186e",
-  measurementId: "G-QBFL2WXTPP",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-const db = firebaseApp.firestore();
-
-const auth = firebase.auth();
-
-const messaging = firebase.messaging();
-const publicKey =
-  "BANtSjRLQWduYTb80aQH9pctsmfJfJtt7UeZITBba-SM6Jpc6t5jxGlD_VtFJjLQgVEgspfAQpFc7oC_-MtrhzM";
-
-const getToken = async (setTokenFound) => {
-  let currentToken = "";
-
-  try {
-    currentToken = await messaging.getToken({ vapidKey: publicKey });
-    if (currentToken) {
-      setTokenFound(true);
-    } else {
-      setTokenFound(false);
-    }
-  } catch (error) {
-    console.log("An error occured", error);
-  }
-  return currentToken;
-};
-
-const onMessageListener = () =>
-  new Promise((resolve) => {
-    messaging.onMessage((payload) => {
-      resolve(payload);
-    });
-  });
-
-export { db, auth, getToken, onMessageListener };
+export { auth, db, storage };
